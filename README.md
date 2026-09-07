@@ -11,6 +11,11 @@ evidence record collected toward that goal. It does not yet provide a working
 root method; write-capable builds remain blocked in `target.h`. It is not a
 flasher or a compatibility profile for another device or firmware.
 
+**Payload compatibility:** the repository's `target.h` is a preflight-only
+diagnostic header. It is not interchangeable with the full target contract
+used by Root-My-Galaxy/GhostLock payload sources and intentionally does not
+define the `FAKE_WAITER_*`, `P0_*`, FOPS, PIPE, or ROOT macro families.
+
 This repository contains a boot-bound diagnostic and the seven instruction
 offsets it needs. They resolve to `__arm64_sys_getresuid`; the named symbol,
 instruction map, stock offsets, unslid VAs, and current-boot VAs are in
