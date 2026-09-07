@@ -24,7 +24,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Install Android NDK r29
-        run: "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
+        run: |
+          "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
       - name: Build read-only AArch64 preflight
         env:
           ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/29.0.14206865
