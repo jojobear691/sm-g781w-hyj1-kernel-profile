@@ -1,23 +1,22 @@
 # SM-G781W HYJ1 kernel profile
 
-This repository preserves reproducible, read-only evidence for the Samsung
-Galaxy S20 FE 5G `SM-G781W` (`r8q`) on firmware `G781WVLSLHYJ1`, kernel
+This repository records an effort to root the Samsung Galaxy S20 FE 5G
+`SM-G781W` (`r8q`) on firmware `G781WVLSLHYJ1`, kernel
 `4.19.113-27223811`.
 
-It is not a root package, exploit, flasher, arbitrary-write implementation,
-or compatibility profile for another device or firmware. Write-capable builds
-remain blocked in `target.h`.
+The current snapshot preserves reproducible, read-only kernel-profile
+evidence collected toward that goal. It does not yet provide a working root
+method; write-capable builds remain blocked in `target.h`.
 
 This repository contains a boot-bound diagnostic and the seven instruction
 offsets it needs. They resolve to `__arm64_sys_getresuid`; the named symbol,
 instruction map, stock offsets, unslid VAs, and current-boot VAs are in
 [docs/EVIDENCE.md](docs/EVIDENCE.md) and the machine-readable
-[`symbols.json`](profiles/r8q-G781WVLSLHYJ1/symbols.json). It deliberately
+[`symbols.json`](profiles/r8q-G781WVLSLHYJ1/symbols.json). The current snapshot
 excludes reclaim, writer, credential, file-operations, pipe, SELinux,
-usermode-helper, and root-handoff metadata. Keep the repository private until
-responsible-disclosure review is complete.
+usermode-helper, and root-handoff metadata.
 
-## Status
+## Current status
 
 | Item | Status |
 |---|---|
