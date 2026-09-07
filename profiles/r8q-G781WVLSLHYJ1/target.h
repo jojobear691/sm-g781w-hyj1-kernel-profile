@@ -5,7 +5,7 @@
  * Boot-bound, read-only diagnostic profile for Samsung SM-G781W / r8q.
  * Firmware: G781WVLSLHYJ1
  * Kernel:   4.19.113-27223811
- * Boot:     502d0979-02d1-4692-996b-d516dc6d7dce
+ * Boot:     d2bf6c9f-4232-4c2f-ad3a-21137bc68380
  *
  * This header contains only identity gates and the instruction offsets needed
  * by the IP/TID-only perf slide sampler. It is not an exploit target header.
@@ -35,7 +35,7 @@
 #define TARGET_CAPABILITY_ROOT 0
 
 #define BUILD_VARIANT_LABEL \
-  "r8q-G781WVLSLHYJ1-4.19-502d-read-only-slide"
+  "r8q-G781WVLSLHYJ1-4.19-d2bf-read-only-slide"
 #define BUILD_FINGERPRINT \
   "samsung/r8qcsx/r8q:13/TP1A.220624.014/G781WVLSLHYJ1:user/release-keys"
 #define TARGET_EXPECTED_MODEL "SM-G781W"
@@ -43,7 +43,7 @@
 #define TARGET_EXPECTED_FINGERPRINT BUILD_FINGERPRINT
 #define TARGET_EXPECTED_KERNEL_RELEASE "4.19.113-27223811"
 #define TARGET_MEASURED_BOOT_ID \
-  "502d0979-02d1-4692-996b-d516dc6d7dce"
+  "d2bf6c9f-4232-4c2f-ad3a-21137bc68380"
 
 /* Refuse silent promotion into a writer or privilege-handoff build. */
 #if defined(APP_PAYLOAD) && APP_PAYLOAD
@@ -67,9 +67,9 @@
 #define TARGET_KASLR_SLIDE_MAX 0x3fe00000ULL
 #define TARGET_KASLR_ALIGNMENT 0x00008000ULL
 
-/* User-supplied read-only result for TARGET_MEASURED_BOOT_ID. */
-#define TARGET_EVIDENCE_TOTAL_SLIDE 0x00050000ULL
-#define TARGET_EVIDENCE_RUNTIME_TEXT_VA 0xffffff80080d0000ULL
+/* Read-only result for TARGET_MEASURED_BOOT_ID. */
+#define TARGET_EVIDENCE_TOTAL_SLIDE 0x000e8000ULL
+#define TARGET_EVIDENCE_RUNTIME_TEXT_VA 0xffffff8008168000ULL
 
 /* Exact stock-Image symbol and instruction offsets used only for sampled-IP
  * matching. Unslid and current-boot VAs are mapped in docs/EVIDENCE.md.

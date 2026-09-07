@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "target": {
+    "model": "SM-G781W",
+    "firmware": "G781WVLSLHYJ1",
+    "kernel_release": "4.19.113-27223811"
+  },
+  "active_fixture": "d2bf6c9f-4232-4c2f-ad3a-21137bc68380",
+  "fixtures": [
+    {
+      "boot_id": "502d0979-02d1-4692-996b-d516dc6d7dce",
+      "status": "historical",
+      "slide": "0x00050000",
+      "runtime_text_va": "0xffffff80080d0000",
+      "provenance": "user-supplied terminal output",
+      "result": {
+        "candidates": 1,
+        "hits": 9,
+        "distinct_offsets": 5,
+        "offset_mask": "0x7a",
+        "lost_records": 0,
+        "lost_samples": 0,
+        "throttle_records": 0,
+        "malformed_records": 0,
+        "overrun_batches": 0
+      }
+    },
+    {
+      "boot_id": "d2bf6c9f-4232-4c2f-ad3a-21137bc68380",
+      "status": "active_at_capture",
+      "captured_on": "2026-09-07",
+      "slide": "0x000e8000",
+      "runtime_text_va": "0xffffff8008168000",
+      "precheck": {
+        "connected_devices": 1,
+        "uptime_seconds": "26392.17",
+        "boot_reason": "kernel_panic,null",
+        "uid": 2000,
+        "selinux": "Enforcing",
+        "boot_completed": true
+      },
+      "measurement": {
+        "binary_sha256": "7dd1fa374c4780c69f237113f8ea30f5fc4024e192d49c3cb42c24177de89b55",
+        "expected_slide": "0x00050000",
+        "observed_slide": "0x000e8000",
+        "exit_status": 3,
+        "result": "recorded_slide_mismatch",
+        "syscalls": 360448,
+        "records": 916,
+        "samples": 916,
+        "kernel_samples": 916,
+        "pid_tid_samples": 916,
+        "candidates": 1,
+        "hits": 6,
+        "distinct_offsets": 4,
+        "offset_mask": "0x78",
+        "lost_records": 0,
+        "lost_samples": 0,
+        "throttle_records": 0,
+        "malformed_records": 0,
+        "overrun_batches": 0
+      },
+      "confirmation": {
+        "binary_sha256": "6428c6a052e47406e50f82e50e63721ef7ea71b6d29d4be257aeae38ae0c670a",
+        "expected_slide": "0x000e8000",
+        "observed_slide": "0x000e8000",
+        "exit_status": 0,
+        "result": "confirmed_current_boot",
+        "syscalls": 360448,
+        "records": 926,
+        "samples": 926,
+        "kernel_samples": 926,
+        "pid_tid_samples": 926,
+        "candidates": 1,
+        "hits": 10,
+        "distinct_offsets": 4,
+        "offset_mask": "0x6c",
+        "lost_records": 0,
+        "lost_samples": 0,
+        "throttle_records": 0,
+        "malformed_records": 0,
+        "overrun_batches": 0
+      },
+      "postcheck": {
+        "same_boot": true,
+        "uid": 2000,
+        "selinux": "Enforcing",
+        "boot_completed": true
+      }
+    }
+  ]
+}

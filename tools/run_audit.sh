@@ -7,6 +7,7 @@ profile_dir="${repo_dir}/profiles/r8q-G781WVLSLHYJ1"
 target_header="${profile_dir}/target.h"
 preflight_src="${repo_dir}/preflight/hyj1_preload_slide.c"
 symbol_json="${profile_dir}/symbols.json"
+boot_fixture_json="${profile_dir}/boot-fixtures.json"
 
 if grep -Eirq 'S23|S918|pa3q|S938|dm3q|S25' \
   "${profile_dir}" "${repo_dir}/preflight"; then
@@ -52,7 +53,7 @@ for required in \
   'SM-G781W' \
   'G781WVLSLHYJ1' \
   '4.19.113-27223811' \
-  '502d0979-02d1-4692-996b-d516dc6d7dce' \
+  'd2bf6c9f-4232-4c2f-ad3a-21137bc68380' \
   'TARGET_CAPABILITY_KERNEL_WRITE 0' \
   'TARGET_CAPABILITY_ROOT 0' \
   'TARGET_DIAGNOSTIC_ONLY 1' \
@@ -123,6 +124,111 @@ if ! jq -e '
   printf '%s\n' 'HYJ1 symbols.json identity, boundary, or instruction mismatch' >&2
   exit 1
 fi
+
+if ! jq -e '
+  (.schema == 1) and
+  (.target.model == "SM-G781W") and
+  (.target.firmware == "G781WVLSLHYJ1") and
+  (.target.kernel_release == "4.19.113-27223811") and
+  (.active_fixture == "d2bf6c9f-4232-4c2f-ad3a-21137bc68380") and
+  ((.fixtures | length) == 2) and
+  (.fixtures[0].boot_id == "502d0979-02d1-4692-996b-d516dc6d7dce") and
+  (.fixtures[0].status == "historical") and
+  (.fixtures[0].slide == "0x00050000") and
+  (.fixtures[0].runtime_text_va == "0xffffff80080d0000") and
+  (.fixtures[0].provenance == "user-supplied terminal output") and
+  (.fixtures[0].result.candidates == 1) and
+  (.fixtures[0].result.hits == 9) and
+  (.fixtures[0].result.distinct_offsets == 5) and
+  (.fixtures[0].result.offset_mask == "0x7a") and
+  (.fixtures[0].result.lost_records == 0) and
+  (.fixtures[0].result.lost_samples == 0) and
+  (.fixtures[0].result.throttle_records == 0) and
+  (.fixtures[0].result.malformed_records == 0) and
+  (.fixtures[0].result.overrun_batches == 0) and
+  (.fixtures[1].boot_id == "d2bf6c9f-4232-4c2f-ad3a-21137bc68380") and
+  (.fixtures[1].status == "active_at_capture") and
+  (.fixtures[1].captured_on == "2026-09-07") and
+  (.fixtures[1].slide == "0x000e8000") and
+  (.fixtures[1].runtime_text_va == "0xffffff8008168000") and
+  (.fixtures[1].precheck.connected_devices == 1) and
+  (.fixtures[1].precheck.boot_reason == "kernel_panic,null") and
+  (.fixtures[1].precheck.uid == 2000) and
+  (.fixtures[1].precheck.selinux == "Enforcing") and
+  (.fixtures[1].precheck.boot_completed == true) and
+  (.fixtures[1].measurement.binary_sha256 ==
+    "7dd1fa374c4780c69f237113f8ea30f5fc4024e192d49c3cb42c24177de89b55") and
+  (.fixtures[1].measurement.expected_slide == "0x00050000") and
+  (.fixtures[1].measurement.observed_slide == "0x000e8000") and
+  (.fixtures[1].measurement.exit_status == 3) and
+  (.fixtures[1].measurement.result == "recorded_slide_mismatch") and
+  (.fixtures[1].measurement.syscalls == 360448) and
+  (.fixtures[1].measurement.records == 916) and
+  (.fixtures[1].measurement.samples == 916) and
+  (.fixtures[1].measurement.kernel_samples == 916) and
+  (.fixtures[1].measurement.pid_tid_samples == 916) and
+  (.fixtures[1].measurement.candidates == 1) and
+  (.fixtures[1].measurement.hits == 6) and
+  (.fixtures[1].measurement.distinct_offsets == 4) and
+  (.fixtures[1].measurement.offset_mask == "0x78") and
+  (.fixtures[1].measurement.lost_records == 0) and
+  (.fixtures[1].measurement.lost_samples == 0) and
+  (.fixtures[1].measurement.throttle_records == 0) and
+  (.fixtures[1].measurement.malformed_records == 0) and
+  (.fixtures[1].measurement.overrun_batches == 0) and
+  (.fixtures[1].confirmation.binary_sha256 ==
+    "6428c6a052e47406e50f82e50e63721ef7ea71b6d29d4be257aeae38ae0c670a") and
+  (.fixtures[1].confirmation.expected_slide == "0x000e8000") and
+  (.fixtures[1].confirmation.observed_slide == "0x000e8000") and
+  (.fixtures[1].confirmation.exit_status == 0) and
+  (.fixtures[1].confirmation.result == "confirmed_current_boot") and
+  (.fixtures[1].confirmation.syscalls == 360448) and
+  (.fixtures[1].confirmation.records == 926) and
+  (.fixtures[1].confirmation.samples == 926) and
+  (.fixtures[1].confirmation.kernel_samples == 926) and
+  (.fixtures[1].confirmation.pid_tid_samples == 926) and
+  (.fixtures[1].confirmation.candidates == 1) and
+  (.fixtures[1].confirmation.hits == 10) and
+  (.fixtures[1].confirmation.distinct_offsets == 4) and
+  (.fixtures[1].confirmation.offset_mask == "0x6c") and
+  (.fixtures[1].confirmation.lost_records == 0) and
+  (.fixtures[1].confirmation.lost_samples == 0) and
+  (.fixtures[1].confirmation.throttle_records == 0) and
+  (.fixtures[1].confirmation.malformed_records == 0) and
+  (.fixtures[1].confirmation.overrun_batches == 0) and
+  (.fixtures[1].postcheck.same_boot == true) and
+  (.fixtures[1].postcheck.uid == 2000) and
+  (.fixtures[1].postcheck.selinux == "Enforcing") and
+  (.fixtures[1].postcheck.boot_completed == true)
+' "${boot_fixture_json}" >/dev/null; then
+  printf '%s\n' 'HYJ1 boot-fixtures.json identity or result mismatch' >&2
+  exit 1
+fi
+
+check_sha256() {
+  local expected="$1"
+  local file="$2"
+  local actual
+  actual="$(sha256sum "${file}" | awk '{print $1}')"
+  if [[ "${actual}" != "${expected}" ]]; then
+    printf 'SHA-256 mismatch for %s: %s (expected %s)\n' \
+      "${file}" "${actual}" "${expected}" >&2
+    exit 1
+  fi
+}
+
+check_sha256 \
+  '48fe3ef27600910ddc426bcb15e0b2b6071dde48ffa2fc2cbdc656ffb4abf561' \
+  "${target_header}"
+check_sha256 \
+  '83feeb0a39d6268d64e2111a39e28ea690316a826a249f066669545ac6a0f75c' \
+  "${boot_fixture_json}"
+check_sha256 \
+  '9b2aeb2d6157d0b37ea6581fa61595ee32f6de870b640578c764d8d1b478d453' \
+  "${symbol_json}"
+check_sha256 \
+  '45049313420898e35ebd5957382d77f03c6436f0f74dfc122a3b59737a428c65' \
+  "${preflight_src}"
 
 compiler=""
 for candidate in cc gcc clang; do

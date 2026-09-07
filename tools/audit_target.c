@@ -9,7 +9,7 @@ _Static_assert(TARGET_KASLR_ALIGNMENT == 0x8000ULL &&
                    (TARGET_KASLR_ALIGNMENT &
                     (TARGET_KASLR_ALIGNMENT - 1)) == 0,
                "unexpected KASLR alignment");
-_Static_assert(TARGET_EVIDENCE_TOTAL_SLIDE == 0x50000ULL,
+_Static_assert(TARGET_EVIDENCE_TOTAL_SLIDE == 0xe8000ULL,
                "unexpected recorded slide");
 _Static_assert((TARGET_EVIDENCE_TOTAL_SLIDE &
                 (TARGET_KASLR_ALIGNMENT - 1)) == 0,
@@ -61,19 +61,19 @@ _Static_assert(KIMAGE_TEXT_BASE + PERF_SLIDE_PC_0_OFF == 0xffffff80080d44e4ULL &
                        0xffffff80080d44fcULL,
                "unslid sampled-IP map mismatch");
 _Static_assert(TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_0_OFF ==
-                   0xffffff80081244e4ULL &&
+                   0xffffff80081bc4e4ULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_1_OFF ==
-                       0xffffff80081244e8ULL &&
+                       0xffffff80081bc4e8ULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_2_OFF ==
-                       0xffffff80081244ecULL &&
+                       0xffffff80081bc4ecULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_3_OFF ==
-                       0xffffff80081244f0ULL &&
+                       0xffffff80081bc4f0ULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_4_OFF ==
-                       0xffffff80081244f4ULL &&
+                       0xffffff80081bc4f4ULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_5_OFF ==
-                       0xffffff80081244f8ULL &&
+                       0xffffff80081bc4f8ULL &&
                    TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_6_OFF ==
-                       0xffffff80081244fcULL,
+                       0xffffff80081bc4fcULL,
                "current-boot sampled-IP map mismatch");
 
 _Static_assert(TARGET_CAPABILITY_READ_ONLY_SLIDE == 1 &&

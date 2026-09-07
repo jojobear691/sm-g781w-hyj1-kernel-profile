@@ -17,9 +17,10 @@ if [[ ! -x "${clang}" ]]; then
 fi
 
 output_dir="${repo_dir}/build/preflight"
-output_file="${output_dir}/hyj1-502d-slide-preflight.so"
+output_file="${output_dir}/hyj1-d2bf-slide-preflight.so"
 build_one="${output_dir}/.build-one.so"
 build_two="${output_dir}/.build-two.so"
+expected_sha256="6428c6a052e47406e50f82e50e63721ef7ea71b6d29d4be257aeae38ae0c670a"
 mkdir -p "${output_dir}"
 
 cleanup() {
@@ -39,4 +40,10 @@ flags=(
 "${clang}" "${flags[@]}" -o "${build_two}" "${script_dir}/hyj1_preload_slide.c"
 cmp "${build_one}" "${build_two}"
 cp -p "${build_one}" "${output_file}"
-sha256sum "${output_file}"
+actual_sha256="$(sha256sum "${output_file}" | awk '{print $1}')"
+if [[ "${actual_sha256}" != "${expected_sha256}" ]]; then
+  printf 'Unexpected preflight SHA-256: %s (expected %s)\n' \
+    "${actual_sha256}" "${expected_sha256}" >&2
+  exit 1
+fi
+printf '%s  %s\n' "${actual_sha256}" "${output_file}"

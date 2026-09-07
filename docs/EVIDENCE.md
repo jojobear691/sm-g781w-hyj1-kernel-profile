@@ -35,22 +35,22 @@ body is `0x174` bytes while the kallsyms-inferred span to the next symbol is
 Formulas for this firmware identity:
 
 - unslid VA = `KIMAGE_TEXT_BASE` (`0xffffff8008080000`) + stock offset
-- current-boot VA = unslid VA + recorded slide `0x50000`
+- current-boot VA = unslid VA + confirmed slide `0xe8000`
 - equivalently, current-boot VA = `TARGET_EVIDENCE_RUNTIME_TEXT_VA`
-  (`0xffffff80080d0000`) + stock offset
+  (`0xffffff8008168000`) + stock offset
 
-Current-boot VAs are valid only for boot
-`502d0979-02d1-4692-996b-d516dc6d7dce` and expire on reboot.
+These runtime VAs are valid only for boot
+`d2bf6c9f-4232-4c2f-ad3a-21137bc68380` and expire on reboot.
 
 | Slot | Stock offset | Symbol offset | Instruction | Unslid VA | Current-boot VA |
 |---|---|---|---|---|---|
-| `PERF_SLIDE_PC_0_OFF` | `0x544e4` | `+0x8` | `adrp x9, 0x763d000` | `0xffffff80080d44e4` | `0xffffff80081244e4` |
-| `PERF_SLIDE_PC_1_OFF` | `0x544e8` | `+0xc` | `ldrb w1, [x8, #110]` | `0xffffff80080d44e8` | `0xffffff80081244e8` |
-| `PERF_SLIDE_PC_2_OFF` | `0x544ec` | `+0x10` | `ldp x13, x11, [x0]` | `0xffffff80080d44ec` | `0xffffff80081244ec` |
-| `PERF_SLIDE_PC_3_OFF` | `0x544f0` | `+0x14` | `ldr x18, [x8, #64]` | `0xffffff80080d44f0` | `0xffffff80081244f0` |
-| `PERF_SLIDE_PC_4_OFF` | `0x544f4` | `+0x18` | `ldr w15, [x9, #3328]` | `0xffffff80080d44f4` | `0xffffff80081244f4` |
-| `PERF_SLIDE_PC_5_OFF` | `0x544f8` | `+0x1c` | `ldr w9, [x10, #4]` | `0xffffff80080d44f8` | `0xffffff80081244f8` |
-| `PERF_SLIDE_PC_6_OFF` | `0x544fc` | `+0x20` | `ldr w12, [x10, #20]` | `0xffffff80080d44fc` | `0xffffff80081244fc` |
+| `PERF_SLIDE_PC_0_OFF` | `0x544e4` | `+0x8` | `adrp x9, 0x763d000` | `0xffffff80080d44e4` | `0xffffff80081bc4e4` |
+| `PERF_SLIDE_PC_1_OFF` | `0x544e8` | `+0xc` | `ldrb w1, [x8, #110]` | `0xffffff80080d44e8` | `0xffffff80081bc4e8` |
+| `PERF_SLIDE_PC_2_OFF` | `0x544ec` | `+0x10` | `ldp x13, x11, [x0]` | `0xffffff80080d44ec` | `0xffffff80081bc4ec` |
+| `PERF_SLIDE_PC_3_OFF` | `0x544f0` | `+0x14` | `ldr x18, [x8, #64]` | `0xffffff80080d44f0` | `0xffffff80081bc4f0` |
+| `PERF_SLIDE_PC_4_OFF` | `0x544f4` | `+0x18` | `ldr w15, [x9, #3328]` | `0xffffff80080d44f4` | `0xffffff80081bc4f4` |
+| `PERF_SLIDE_PC_5_OFF` | `0x544f8` | `+0x1c` | `ldr w9, [x10, #4]` | `0xffffff80080d44f8` | `0xffffff80081bc4f8` |
+| `PERF_SLIDE_PC_6_OFF` | `0x544fc` | `+0x20` | `ldr w12, [x10, #20]` | `0xffffff80080d44fc` | `0xffffff80081bc4fc` |
 
 `make audit` checks this arithmetic. The preflight log prints `target_off`
 (stock offset), never the sampled kernel instruction pointer.
@@ -66,15 +66,28 @@ corrected linked-address domain. Disassembling the same raw Image with VMA
 zero renders the equivalent target as `0x2fbc000`; the instruction encoding
 and page-relative delta are unchanged.
 
-## Current boot
+## Active boot fixture
 
-The user-supplied read-only preflight output for boot
+The IP/TID-only sampler measured boot
+`d2bf6c9f-4232-4c2f-ad3a-21137bc68380` twice on 2026-09-07. The measurement
+pass reported one `0xe8000` candidate, six hits across four offsets, and a
+clean stream. A rebuilt confirmation pass reported the same sole candidate,
+ten hits across four offsets, no lost, malformed, throttled, overrun, or other
+records, and exit status 0. The boot ID matched before, inside, and after the
+confirmation.
+
+The confirmation binary was built twice identically with NDK r29 and has
+SHA-256
+`6428c6a052e47406e50f82e50e63721ef7ea71b6d29d4be257aeae38ae0c670a`.
+The phone remained UID 2000, SELinux Enforcing, and boot-complete afterward.
+No process-local kernel pointer registers were requested or printed.
+
+## Previous boot fixture
+
+User-supplied terminal output for boot
 `502d0979-02d1-4692-996b-d516dc6d7dce` reported one candidate, slide
 `0x50000`, nine hits across five instruction offsets, and zero lost,
-malformed, throttled, or overrun records. Process-local pointers are excluded
-from this repository.
+malformed, throttled, or overrun records. That value expired with the boot.
 
-The preserved sampler is narrower than that supplied run: it requests only
-sampled IP and TID, never kernel pointer registers, and fails closed unless
-the result matches the recorded `0x50000` slide. This boot fixture expires on
-reboot.
+Both records are preserved in the machine-readable
+[`boot-fixtures.json`](../profiles/r8q-G781WVLSLHYJ1/boot-fixtures.json).
