@@ -9,9 +9,11 @@ or compatibility profile for another device or firmware. Write-capable builds
 remain blocked in `target.h`.
 
 This repository contains a boot-bound diagnostic and the seven instruction
-offsets it needs. It deliberately excludes reclaim, writer, credential,
-file-operations, pipe, SELinux, usermode-helper, and root-handoff metadata.
-Keep the repository private until responsible-disclosure review is complete.
+offsets it needs. The offset map (stock offset, unslid VA, current-boot VA)
+is in [docs/EVIDENCE.md](docs/EVIDENCE.md). It deliberately excludes reclaim,
+writer, credential, file-operations, pipe, SELinux, usermode-helper, and
+root-handoff metadata. Keep the repository private until
+responsible-disclosure review is complete.
 
 ## Status
 
@@ -29,9 +31,9 @@ Current-boot fields expire on reboot.
 ## Repository layout
 
 - `profiles/r8q-G781WVLSLHYJ1/` — minimal diagnostic target profile.
-- `tools/` — numeric and contamination audits.
+- `tools/` — numeric, contamination, and fail-closed capability audits.
 - `preflight/` — boot-bound, read-only perf slide sampler source.
-- `docs/` — evidence boundaries and known-bad artifact hashes.
+- `docs/` — evidence ledger, sampled-offset map, and known-bad hashes.
 
 ## Validate
 
@@ -39,11 +41,14 @@ Current-boot fields expire on reboot.
 make audit
 ```
 
-The audit checks arithmetic, the sampled instruction window, capability
-gates, header self-containment, personal-data patterns, and
-foreign-device contamination. It also verifies that an `APP_PAYLOAD` build
-fails closed. This is a consistency audit, not independent validation against
-the proprietary kernel Image.
+The audit checks arithmetic, the sampled instruction window and VA map,
+capability gates, header self-containment, personal-data patterns, and
+foreign-device contamination. It also verifies that writer, root, oracle,
+and `APP_PAYLOAD` builds fail closed. This is a consistency audit, not
+independent validation against the proprietary kernel Image.
+
+CI runs `make audit` and an NDK r29 AArch64 preflight compile on every push
+and pull request.
 
 ## Build the read-only preflight
 

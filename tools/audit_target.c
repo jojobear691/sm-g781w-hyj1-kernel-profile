@@ -27,8 +27,40 @@ _Static_assert(PERF_SLIDE_PC_0_OFF == 0x544e4ULL &&
                    PERF_SLIDE_PC_4_OFF == PERF_SLIDE_PC_3_OFF + 4 &&
                    PERF_SLIDE_PC_5_OFF == PERF_SLIDE_PC_4_OFF + 4 &&
                    PERF_SLIDE_PC_6_OFF == PERF_SLIDE_PC_5_OFF + 4 &&
+                   PERF_SLIDE_FIRST_PC_OFF == PERF_SLIDE_PC_0_OFF &&
+                   PERF_SLIDE_LAST_PC_OFF == PERF_SLIDE_PC_6_OFF &&
                    PERF_SLIDE_LAST_PC_OFF == 0x544fcULL,
                "sampled instruction window mismatch");
+
+_Static_assert(KIMAGE_TEXT_BASE + PERF_SLIDE_PC_0_OFF == 0xffffff80080d44e4ULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_1_OFF ==
+                       0xffffff80080d44e8ULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_2_OFF ==
+                       0xffffff80080d44ecULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_3_OFF ==
+                       0xffffff80080d44f0ULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_4_OFF ==
+                       0xffffff80080d44f4ULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_5_OFF ==
+                       0xffffff80080d44f8ULL &&
+                   KIMAGE_TEXT_BASE + PERF_SLIDE_PC_6_OFF ==
+                       0xffffff80080d44fcULL,
+               "unslid sampled-IP map mismatch");
+_Static_assert(TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_0_OFF ==
+                   0xffffff80081244e4ULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_1_OFF ==
+                       0xffffff80081244e8ULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_2_OFF ==
+                       0xffffff80081244ecULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_3_OFF ==
+                       0xffffff80081244f0ULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_4_OFF ==
+                       0xffffff80081244f4ULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_5_OFF ==
+                       0xffffff80081244f8ULL &&
+                   TARGET_EVIDENCE_RUNTIME_TEXT_VA + PERF_SLIDE_PC_6_OFF ==
+                       0xffffff80081244fcULL,
+               "current-boot sampled-IP map mismatch");
 
 _Static_assert(TARGET_CAPABILITY_READ_ONLY_SLIDE == 1 &&
                    TARGET_CAPABILITY_TYPED_RECLAIM == 0 &&

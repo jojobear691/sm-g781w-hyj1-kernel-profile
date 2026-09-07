@@ -23,4 +23,14 @@ G781W_HYJ1_PERF_IP_TID=I_ACCEPT_READ_ONLY_CURRENT_BOOT_PERF_CAPTURE \
 ```
 
 The sampler fails closed if the observed slide differs from the recorded
-`0x50000` value.
+`0x50000` value. Hit logs print `target_off` (stock-Image offset), not the
+sampled kernel PC. The seven-slot map is in [docs/EVIDENCE.md](../docs/EVIDENCE.md).
+
+Exit statuses:
+
+| Status | Meaning |
+|---|---|
+| `0` | Confirmed current-boot slide `0x50000` on a clean perf stream |
+| `2` | No stable exact-window candidate |
+| `3` | Invalid perf stream, setup failure, or slide mismatch |
+| `125` | Identity or acknowledgement gate failed |

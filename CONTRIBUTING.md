@@ -9,7 +9,8 @@ versions, and whether each claim is observed, derived, or unverified.
 Pull requests must pass `make audit` and must not add copied cross-device
 offsets, arbitrary kernel writers, root payloads, KDP/SELinux bypasses,
 persistence mechanisms, destructive commands, proprietary firmware, or live
-exploitation instructions.
+exploitation instructions. Keep the sampled window limited to the seven
+`getresuid` instruction offsets documented in `docs/EVIDENCE.md`.
 
 Before submitting, confirm:
 

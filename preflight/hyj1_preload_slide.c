@@ -19,6 +19,13 @@
 
 #include "target.h"
 
+#if !TARGET_DIAGNOSTIC_ONLY || !TARGET_CAPABILITY_READ_ONLY_SLIDE || \
+    TARGET_CAPABILITY_TYPED_RECLAIM || TARGET_CAPABILITY_SAFE_WRITER || \
+    TARGET_CAPABILITY_KERNEL_WRITE || TARGET_CAPABILITY_ARBITRARY_RW || \
+    TARGET_CAPABILITY_ROOT
+#error "HYJ1 preflight requires the read-only diagnostic profile"
+#endif
+
 #define EXPECTED_MODEL TARGET_EXPECTED_MODEL
 #define EXPECTED_DISPLAY TARGET_EXPECTED_DISPLAY
 #define EXPECTED_FINGERPRINT TARGET_EXPECTED_FINGERPRINT
@@ -257,7 +264,7 @@ static void inspect_sample(const unsigned char *record,
   candidate->offset_mask |= 1ULL << offset_index;
   ++stats->target_hits;
 
-  printf("target_hit=%llu raw_pc=0x%llx slide=0x%llx "
+  printf("target_hit=%llu target_off=0x%llx slide=0x%llx "
          "candidate_hits=%u\n",
          (unsigned long long)stats->target_hits,
          (unsigned long long)k_target_offsets[offset_index],
