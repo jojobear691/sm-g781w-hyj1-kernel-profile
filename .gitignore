@@ -1,0 +1,8 @@
+/build/
+*.o
+*.so
+*.zip
+*.tar
+*.tar.gz
+compile_commands.json
+.DS_Store
