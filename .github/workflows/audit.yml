@@ -1,0 +1,31 @@
+name: audit
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  profile-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Audit HYJ1 profile
+        run: make audit
+
+  android-preflight-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install Android NDK r29
+        run: "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" "ndk;29.0.14206865"
+      - name: Build read-only AArch64 preflight
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_SDK_ROOT }}/ndk/29.0.14206865
+        run: make preflight
