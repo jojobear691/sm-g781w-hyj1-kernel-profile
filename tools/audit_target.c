@@ -32,6 +32,20 @@ _Static_assert(PERF_SLIDE_PC_0_OFF == 0x544e4ULL &&
                    PERF_SLIDE_LAST_PC_OFF == 0x544fcULL,
                "sampled instruction window mismatch");
 
+_Static_assert(PERF_SLIDE_SYMBOL_OFF == 0x544dcULL &&
+                   PERF_SLIDE_SYMBOL_BODY_END_OFF == 0x54650ULL &&
+                   PERF_SLIDE_NEXT_SYMBOL_OFF == 0x54654ULL &&
+                   PERF_SLIDE_PC_0_OFF - PERF_SLIDE_SYMBOL_OFF == 0x8ULL &&
+                   PERF_SLIDE_PC_6_OFF - PERF_SLIDE_SYMBOL_OFF == 0x20ULL &&
+                   PERF_SLIDE_SYMBOL_BODY_END_OFF - PERF_SLIDE_SYMBOL_OFF ==
+                       0x174ULL &&
+                   PERF_SLIDE_NEXT_SYMBOL_OFF - PERF_SLIDE_SYMBOL_OFF ==
+                       0x178ULL,
+               "sampled symbol boundary mismatch");
+_Static_assert(sizeof(PERF_SLIDE_SYMBOL_NAME) ==
+                   sizeof("__arm64_sys_getresuid"),
+               "sampled symbol name length mismatch");
+
 _Static_assert(KIMAGE_TEXT_BASE + PERF_SLIDE_PC_0_OFF == 0xffffff80080d44e4ULL &&
                    KIMAGE_TEXT_BASE + PERF_SLIDE_PC_1_OFF ==
                        0xffffff80080d44e8ULL &&

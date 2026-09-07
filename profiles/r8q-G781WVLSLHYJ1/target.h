@@ -71,9 +71,13 @@
 #define TARGET_EVIDENCE_TOTAL_SLIDE 0x00050000ULL
 #define TARGET_EVIDENCE_RUNTIME_TEXT_VA 0xffffff80080d0000ULL
 
-/* Exact stock-Image instruction offsets used only for sampled-IP matching.
- * Unslid and current-boot VAs for this window are mapped in docs/EVIDENCE.md.
+/* Exact stock-Image symbol and instruction offsets used only for sampled-IP
+ * matching. Unslid and current-boot VAs are mapped in docs/EVIDENCE.md.
  */
+#define PERF_SLIDE_SYMBOL_NAME "__arm64_sys_getresuid"
+#define PERF_SLIDE_SYMBOL_OFF 0x000544dcULL
+#define PERF_SLIDE_SYMBOL_BODY_END_OFF 0x00054650ULL
+#define PERF_SLIDE_NEXT_SYMBOL_OFF 0x00054654ULL
 #define PERF_SLIDE_PC_0_OFF 0x000544e4ULL
 #define PERF_SLIDE_PC_1_OFF 0x000544e8ULL
 #define PERF_SLIDE_PC_2_OFF 0x000544ecULL

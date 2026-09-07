@@ -1,0 +1,80 @@
+{
+  "schema": 1,
+  "target": {
+    "model": "SM-G781W",
+    "firmware": "G781WVLSLHYJ1",
+    "kernel_release": "4.19.113-27223811"
+  },
+  "source": {
+    "raw_image_base": "0x04681000",
+    "disassembly_vma": "0x04681000",
+    "kernel_image_sha256": "9b13d7b6dd000f72247ed81f13835c9341cbbd3c73def6de9be57f1af74e32df",
+    "corrected_full_symbol_map_sha256": "bdf70bb8c82b1fbec852390d1adf93a106ee5187356c64a0fad06a9c56737e84",
+    "correction_model_json_sha256": "611b55f5ea017de99c368e9bac02344e72b200053fb3ef025ccd7dc80f26858d",
+    "released_kernel_sys_c_sha256": "6da9fb3cd791443beab5621f57741b4e0b0f500f1da1446a47a1d503daafc76c",
+    "correction": "printed symbol name uses the following raw-map line's address"
+  },
+  "symbols": [
+    {
+      "name": "__arm64_sys_getresuid",
+      "type": "T",
+      "raw_map_address": "0x00000000046d54dc",
+      "image_offset": "0x000544dc",
+      "instruction_body_end": "0x00054650",
+      "instruction_body_size": "0x174",
+      "boundary_marker": {
+        "image_offset": "0x00054650",
+        "word": "0x00be7bad"
+      },
+      "next_symbol": {
+        "name": "__sys_setresgid",
+        "raw_map_address": "0x00000000046d5654",
+        "image_offset": "0x00054654"
+      },
+      "span_to_next_symbol": "0x178",
+      "sample_window": {
+        "first_image_offset": "0x000544e4",
+        "last_image_offset": "0x000544fc",
+        "first_symbol_relative_offset": "+0x8",
+        "last_symbol_relative_offset": "+0x20",
+        "instructions": [
+          {
+            "image_offset": "0x000544e4",
+            "symbol_relative_offset": "+0x8",
+            "instruction": "adrp x9, 0x763d000"
+          },
+          {
+            "image_offset": "0x000544e8",
+            "symbol_relative_offset": "+0xc",
+            "instruction": "ldrb w1, [x8, #110]"
+          },
+          {
+            "image_offset": "0x000544ec",
+            "symbol_relative_offset": "+0x10",
+            "instruction": "ldp x13, x11, [x0]"
+          },
+          {
+            "image_offset": "0x000544f0",
+            "symbol_relative_offset": "+0x14",
+            "instruction": "ldr x18, [x8, #64]"
+          },
+          {
+            "image_offset": "0x000544f4",
+            "symbol_relative_offset": "+0x18",
+            "instruction": "ldr w15, [x9, #3328]"
+          },
+          {
+            "image_offset": "0x000544f8",
+            "symbol_relative_offset": "+0x1c",
+            "instruction": "ldr w9, [x10, #4]"
+          },
+          {
+            "image_offset": "0x000544fc",
+            "symbol_relative_offset": "+0x20",
+            "instruction": "ldr w12, [x10, #20]"
+          }
+        ]
+      }
+    }
+  ]
+}
